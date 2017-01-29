@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nanamation-com
+  labels:
+    app: nanamation-com
+spec:
+  replicas: 1
+  # selector defaults from template labels
+  template:
+    metadata:
+      labels:
+        app: nanamation-com
+    spec:
+      securityContext:
+        fsGroup: 101  # for nginx
+      volumes:
+        - name: content
+          emptyDir: {}
+      containers:
+        - name: git-sync
+          image: gcr.io/google_containers/git-sync-amd64:v2.0.4
+          args:
+            - -repo=https://github.com/hockin-org/nanamation.com
+            - -branch=master
+            - -depth=1
+            - -wait=60
+            - -dest=html
+          volumeMounts:
+            - name: content
+              mountPath: /git
+        - name: nginx
+          image: nginx:alpine
+          volumeMounts:
+            - name: content
+              mountPath: /usr/share/nginx
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            timeoutSeconds: 1
+            failureThreshold: 2
