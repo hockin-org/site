@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hockin-org-genealogy
+  labels:
+    app: hockin-org-genealogy
+spec:
+  replicas: 1
+  # selector defaults from template labels
+  template:
+    metadata:
+      labels:
+        app: hockin-org-genealogy
+    spec:
+      securityContext:
+        fsGroup: 33  # for apache
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: hockin-org-genealogy
+      containers:
+        - name: mysql
+          image: mysql:latest
+          args:
+            - --bind-address=127.0.0.1
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hockin-org-genealogy-mysql
+                  key: passwd
+          volumeMounts:
+            - name: data
+              subPath: mysql
+              mountPath: /var/lib/mysql
+        - name: webtrees
+          image: thockin/webtrees:v1.7.9-3
+          volumeMounts:
+            - name: data
+              subPath: webtrees
+              mountPath: /var/www/html/data
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            failureThreshold: 2
