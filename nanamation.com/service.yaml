@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: nanamation-com
   labels:
     app: nanamation-com
-  name: nanamation-com
 spec:
   type: NodePort
   ports:
