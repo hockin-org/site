@@ -11,7 +11,7 @@ spec:
   - host: nanamation.com
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: nanamation-com
           servicePort: 80
