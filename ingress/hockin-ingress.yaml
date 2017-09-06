@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hockin
+spec:
+  #tls:
+  #- hosts:
+  #  - nanamation.com
+  #  secretName: nanamation-tls
+  rules:
+  - host: nanamation.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nanamation-com
+          servicePort: 80
