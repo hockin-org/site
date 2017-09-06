@@ -26,11 +26,21 @@ spec:
             - -depth=1
             - -wait=60
             - -dest=html
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 16Mi
           volumeMounts:
             - name: content
               mountPath: /git
         - name: nginx
           image: nginx:alpine
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 32Mi
           volumeMounts:
             - name: content
               mountPath: /usr/share/nginx
