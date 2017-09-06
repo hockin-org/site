@@ -18,6 +18,9 @@ RUN apt-get install -y unzip && \
     chown -R www-data.www-data . && \
     mv data data.default
 
+RUN touch /var/www/html/healthz && \
+    chown www-data.www-data /var/www/html/healthz
+
 VOLUME /var/www/html/data
 
 COPY entrypoint.sh /

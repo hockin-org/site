@@ -14,6 +14,7 @@ spec:
     spec:
       securityContext:
         fsGroup: 33  # for apache
+      terminationGracePeriodSeconds: 5
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -29,19 +30,29 @@ spec:
                 secretKeyRef:
                   name: hockin-org-genealogy-mysql
                   key: passwd
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 400Mi
           volumeMounts:
             - name: data
               subPath: mysql
               mountPath: /var/lib/mysql
         - name: webtrees
-          image: thockin/webtrees:v1.7.9-3
+          image: thockin/webtrees:v1.7.9-4
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 800Mi
           volumeMounts:
             - name: data
               subPath: webtrees
               mountPath: /var/www/html/data
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 80
             initialDelaySeconds: 60
             timeoutSeconds: 2
