@@ -2,11 +2,16 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: hockin
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: hockin-org
 spec:
   #tls:
   #- hosts:
   #  - nanamation.com
   #  secretName: nanamation-tls
+  backend: #FIXME get rid of this
+    serviceName: hockin-org-genealogy
+    servicePort: 80
   rules:
   - host: nanamation.com
     http:
@@ -14,4 +19,18 @@ spec:
       - path: /*
         backend:
           serviceName: nanamation-com
+          servicePort: 80
+  - host: nanhockin.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: nanamation-com
+          servicePort: 80
+  - host: hockin.org
+    http:
+      paths:
+      - path: /genealogy/*
+        backend:
+          serviceName: hockin-org-genealogy
           servicePort: 80
