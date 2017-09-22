@@ -21,7 +21,8 @@ RUN apt-get install -y unzip && \
 RUN touch /var/www/html/healthz && \
     chown www-data.www-data /var/www/html/healthz
 
-VOLUME /var/www/html/data
+# To preserve state across container restarts, users should mount a volume
+# at /var/www/html/data
 
 COPY entrypoint.sh /
 ENTRYPOINT /entrypoint.sh
