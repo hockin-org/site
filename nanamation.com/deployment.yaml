@@ -26,6 +26,8 @@ spec:
             - -depth=1
             - -wait=60
             - -dest=html
+            - -max-sync-failures=1000000000
+            - -v=2
           resources:
             requests:
               cpu: 25m
