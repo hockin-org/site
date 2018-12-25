@@ -21,7 +21,7 @@ spec:
             claimName: hockin-org-genealogy
       containers:
         - name: mysql
-          image: mysql:latest
+          image: mysql:5.7
           args:
             - --bind-address=127.0.0.1
           env:
@@ -32,7 +32,7 @@ spec:
                   key: passwd
           resources:
             requests:
-              cpu: 25m
+              cpu: 20m
             limits:
               memory: 400Mi
           volumeMounts:
@@ -40,12 +40,12 @@ spec:
               subPath: mysql
               mountPath: /var/lib/mysql
         - name: webtrees
-          image: thockin/webtrees:v1.7.9-5
+          image: thockin/webtrees:v1.7.12-1
           resources:
             requests:
-              cpu: 25m
+              cpu: 20m
             limits:
-              memory: 800Mi
+              memory: 256Mi
           volumeMounts:
             - name: data
               subPath: webtrees
