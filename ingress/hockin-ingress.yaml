@@ -5,12 +5,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: hockin-org
 spec:
+  # FIXME: TLS for all
   #tls:
   #- hosts:
   #  - nanamation.com
   #  secretName: nanamation-tls
-  backend: #FIXME get rid of this
-    serviceName: hockin-org-genealogy
+  backend:
+    serviceName: hockin-org
     servicePort: 80
   rules:
   - host: nanamation.com
@@ -30,6 +31,20 @@ spec:
   - host: hockin.org
     http:
       paths:
+        # FIXME: this is a hack until I decompose the contents into smaller
+        # pieces, e.g. a backend bucket.
+      - path: /~thockin
+        backend:
+          serviceName: hockin-org-thockin
+          servicePort: 80
+      - path: /~thockin/*
+        backend:
+          serviceName: hockin-org-thockin
+          servicePort: 80
+      - path: /genealogy
+        backend:
+          serviceName: hockin-org-genealogy
+          servicePort: 80
       - path: /genealogy/*
         backend:
           serviceName: hockin-org-genealogy

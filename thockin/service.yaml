@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hockin-org-thockin
+  labels:
+    app: hockin-org-thockin
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: hockin-org-thockin

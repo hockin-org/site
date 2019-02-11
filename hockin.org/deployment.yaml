@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hockin-org
+  labels:
+    app: hockin-org
+spec:
+  replicas: 1
+  # selector defaults from template labels
+  template:
+    metadata:
+      labels:
+        app: hockin-org
+    spec:
+      securityContext:
+        fsGroup: 101  # for nginx
+      volumes:
+        - name: content
+          emptyDir: {}
+      containers:
+        - name: git-sync
+          image: k8s.gcr.io/git-sync:v3.1.0
+          args:
+            - -repo=https://github.com/hockin-org/hockin.org
+            - -branch=master
+            - -depth=1
+            - -wait=60
+            - -dest=html
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 32Mi
+          volumeMounts:
+            - name: content
+              mountPath: /tmp/git
+        - name: nginx
+          image: nginx:alpine
+          resources:
+            requests:
+              cpu: 25m
+            limits:
+              memory: 32Mi
+          volumeMounts:
+            - name: content
+              mountPath: /usr/share/nginx
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            timeoutSeconds: 1
+            failureThreshold: 2
