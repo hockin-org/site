@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hockin-org-genealogy
@@ -6,7 +6,9 @@ metadata:
     app: hockin-org-genealogy
 spec:
   replicas: 1
-  # selector defaults from template labels
+  selector:
+    matchLabels:
+      app: hockin-org-genealogy
   template:
     metadata:
       labels:
@@ -34,26 +36,33 @@ spec:
             requests:
               cpu: 20m
             limits:
-              memory: 400Mi
+              memory: 300Mi
           volumeMounts:
             - name: data
               subPath: mysql
               mountPath: /var/lib/mysql
         - name: webtrees
-          image: thockin/webtrees:v1.7.12-1
+          image: thockin/webtrees:v2.0.16-2
           resources:
             requests:
               cpu: 20m
             limits:
-              memory: 256Mi
+              memory: 300Mi
           volumeMounts:
             - name: data
               subPath: webtrees
               mountPath: /var/www/html/data
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 2
           livenessProbe:
             httpGet:
               path: /healthz
               port: 80
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             timeoutSeconds: 2
-            failureThreshold: 2
+            failureThreshold: 3
