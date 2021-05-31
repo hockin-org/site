@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+  name: dyndns
+spec:
+  selector:
+    matchLabels:
+      app: dyndns
+  template:
+    metadata:
+      labels:
+        app: dyndns
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: dyndns
+        image: curlimages/curl
+        env:
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              name: dyndns
+              key: username
+        - name: PASS
+          valueFrom:
+            secretKeyRef:
+              name: dyndns
+              key: password
+        - name: HOST
+          valueFrom:
+            secretKeyRef:
+              name: dyndns
+              key: hostname
+        command:
+        - sh
+        args:
+        - -c
+        - "curl -s -u '$(USER):$(PASS)' 'https://dynamic.zoneedit.com/auth/dynamic.html?host=$(HOST)'; sleep inf"
+        resources:
+          requests:
+            cpu: 1m
+          limits:
+            memory: 8Mi
