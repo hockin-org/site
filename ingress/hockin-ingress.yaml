@@ -4,12 +4,9 @@ metadata:
   name: hockin
   annotations:
     kubernetes.io/ingress.global-static-ip-name: hockin-org
+    networking.gke.io/managed-certificates: hockin
+    kubernetes.io/ingress.class: gce
 spec:
-  # FIXME: TLS for all
-  #tls:
-  #- hosts:
-  #  - nanamation.com
-  #  secretName: nanamation-tls
   backend:
     serviceName: hockin-org
     servicePort: 80
@@ -40,14 +37,6 @@ spec:
       - path: /~thockin/*
         backend:
           serviceName: hockin-org-thockin
-          servicePort: 80
-      - path: /genealogy
-        backend:
-          serviceName: hockin-org-genealogy
-          servicePort: 80
-      - path: /genealogy/*
-        backend:
-          serviceName: hockin-org-genealogy
           servicePort: 80
   - host: family.hockin.org
     http:
