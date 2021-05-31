@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hockin-org
@@ -6,7 +6,9 @@ metadata:
     app: hockin-org
 spec:
   replicas: 1
-  # selector defaults from template labels
+  selector:
+    matchLabels:
+      app: hockin-org
   template:
     metadata:
       labels:
@@ -30,7 +32,7 @@ spec:
             requests:
               cpu: 25m
             limits:
-              memory: 32Mi
+              memory: 16Mi
           volumeMounts:
             - name: content
               mountPath: /tmp/git
@@ -40,7 +42,7 @@ spec:
             requests:
               cpu: 25m
             limits:
-              memory: 32Mi
+              memory: 16Mi
           volumeMounts:
             - name: content
               mountPath: /usr/share/nginx
