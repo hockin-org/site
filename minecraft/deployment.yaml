@@ -46,6 +46,10 @@ spec:
               value: "false"
             - name: DIFFICULTY
               value: "normal"
+            - name: OVERRIDE_SERVER_PROPERTIES
+              value: "true"
+            - name: OVERRIDE_WHITELIST
+              value: "true"
             - name: WHITELIST
               value: "Apocalypse2121,Kitty546,RandomMining,RandomMiningT"
             - name: OPS
