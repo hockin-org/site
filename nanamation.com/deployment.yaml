@@ -21,9 +21,10 @@ spec:
           emptyDir: {}
       containers:
         - name: git-sync
-          image: gcr.io/google_containers/git-sync-amd64:v2.0.4
+          image: registry.k8s.io/git-sync/git-sync:v3.6.6
           args:
             - -repo=https://github.com/hockin-org/nanamation.com
+            - -root=/git
             - -branch=master
             - -depth=1
             - -wait=60

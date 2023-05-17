@@ -21,13 +21,14 @@ spec:
           emptyDir: {}
       containers:
         - name: git-sync
-          image: k8s.gcr.io/git-sync:v3.1.0
+          image: registry.k8s.io/git-sync/git-sync:v3.6.6
           args:
             - -repo=https://github.com/hockin-org/hockin.org
             - -branch=master
             - -depth=1
             - -wait=60
             - -dest=html
+            - -v=2
           resources:
             requests:
               cpu: 25m
