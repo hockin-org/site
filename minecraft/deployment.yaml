@@ -35,9 +35,9 @@ spec:
             - name: EULA
               value: "TRUE"
             - name: MOTD
-              value: "Disposable SMP"
+              value: "Tessie SMP - A speshul place for speshul people!"
             - name: MEMORY
-              value: "1G"
+              value: "2G"
             - name: REMOVE_OLD_MODS
               value: "TRUE"
             - name: ENABLE_RCON
@@ -51,7 +51,7 @@ spec:
             - name: OVERRIDE_WHITELIST
               value: "true"
             - name: WHITELIST
-              value: "Apocalypse2121"
+              value: "Apocalypse2121,TheBazan,Skyblink,____thebee1234,Firetiger1337"
             - name: OPS
               value: ""
             - name: MAX_PLAYERS
@@ -72,7 +72,6 @@ spec:
               value: "true"
             - name: GENERATE_STRUCTURES
               value: "true"
-
             - name: SPAWN_ANIMALS
               value: "true"
             - name: SPAWN_MONSTERS
@@ -87,8 +86,8 @@ spec:
               hostPort: 25565
           resources:
             requests:
-              cpu: 100m
-              memory: 2Gi
+              cpu: 500m
+              memory: 3Gi
             limits:
               memory: 3Gi
           volumeMounts:
@@ -100,7 +99,7 @@ spec:
             initialDelaySeconds: 30
             timeoutSeconds: 3
             periodSeconds: 3
-            failureThreshold: 10
+            failureThreshold: 30
           livenessProbe:
             tcpSocket:
               port: 25565
