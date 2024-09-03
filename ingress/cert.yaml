@@ -4,7 +4,5 @@ metadata:
   name: hockin
 spec:
   domains:
-    - nanamation.com
-    - nanhockin.com
     - hockin.org
     - family.hockin.org

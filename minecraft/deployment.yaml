@@ -51,7 +51,7 @@ spec:
             - name: OVERRIDE_WHITELIST
               value: "true"
             - name: WHITELIST
-              value: "Apocalypse2121,TheBazan,Skyblink,____thebee1234,Firetiger1337"
+              value: "Apocalypse2121,TheBazan,Skyblink,Firetiger1337,thebee1234"
             - name: OPS
               value: ""
             - name: MAX_PLAYERS

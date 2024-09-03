@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hockin
@@ -7,41 +7,40 @@ metadata:
     networking.gke.io/managed-certificates: hockin
     kubernetes.io/ingress.class: gce
 spec:
-  backend:
-    serviceName: hockin-org
-    servicePort: 80
   rules:
-  - host: nanamation.com
-    http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: nanamation-com
-          servicePort: 80
-  - host: nanhockin.com
-    http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: nanamation-com
-          servicePort: 80
   - host: hockin.org
     http:
       paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hockin-org
+            port:
+              number: 80
+      - path: /~thockin
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hockin-org-thockin
+            port:
+              number: 80
+      - path: /~thockin/*
         # FIXME: this is a hack until I decompose the contents into smaller
         # pieces, e.g. a backend bucket.
-      - path: /~thockin
+        pathType: ImplementationSpecific
         backend:
-          serviceName: hockin-org-thockin
-          servicePort: 80
-      - path: /~thockin/*
-        backend:
-          serviceName: hockin-org-thockin
-          servicePort: 80
+          service:
+            name: hockin-org-thockin
+            port:
+              number: 80
   - host: family.hockin.org
     http:
       paths:
       - path: /*
+        pathType: ImplementationSpecific
         backend:
-          serviceName: hockin-org-genealogy
-          servicePort: 80
+          service:
+            name: hockin-org-genealogy
+            port:
+              number: 80
