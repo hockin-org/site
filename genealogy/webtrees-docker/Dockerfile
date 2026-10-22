@@ -1,4 +1,4 @@
-FROM php:apache as prep
+FROM php:apache AS prep
 
 RUN apt-get update
 
