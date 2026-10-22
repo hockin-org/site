@@ -16,7 +16,7 @@ RUN docker-php-source extract && \
     docker-php-source delete
 
 RUN apt-get install -y unzip && \
-    curl -LO https://github.com/fisharebest/webtrees/releases/download/2.0.16/webtrees-2.0.16.zip && \
+    curl -LO https://github.com/fisharebest/webtrees/releases/download/2.2.6/webtrees-2.2.6.zip && \
     unzip *.zip && rm *.zip && \
     mv webtrees/* . && rmdir webtrees && \
     chown -R www-data.www-data . && \
